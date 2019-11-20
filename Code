@@ -1,0 +1,104 @@
+Created on Wed Oct  2 22:14:25 2019
+@author: Thomas Poozhikala
+"""
+#Import module in order to insert exp function
+import math
+
+#Inputs as described in the example problem
+w13 = 0.5
+w14 = 0.9
+w23 = 0.4
+w24 = 1.0
+w35 = -1.2
+w45 = 1.1
+T3 = 0.8
+T4 = -0.1
+T5 = 0.3
+x1 = 1
+x2 = 1
+yd = 0
+alpha = 0.1
+
+iw13 = 'w13 = ' + repr(w13)  
+print(iw13)
+iw14 = 'w14 = ' + repr(w14)  
+print(iw14)
+iw23 = 'w23 = ' + repr(w23)  
+print(iw23)
+iw24 = 'w24 = ' + repr(w24)  
+print(iw24)
+iw35 = 'w35 = ' + repr(w35)  
+print(iw35)
+iw45 = 'w45 = ' + repr(w45)  
+print(iw45)
+iT3 = 'Theta3 = ' + repr(T3)  
+print(iT3)
+iT4 = 'Theta4 = ' + repr(T4)  
+print(iT4)
+iT5 = 'Theta5 = ' + repr(T5)  
+print(iT5)
+ix1 = 'x1 = ' + repr(x1)  
+print(ix1)
+ix2 = 'x2 = ' + repr(x2)  
+print(ix2)
+iyd = 'yd = ' + repr(yd)  
+print(iyd)
+ialpha = 'alpha = ' + repr(alpha)  
+print(ialpha)
+
+#Solving for outputs
+y3 = 1/(1 + math.exp(-(x1*w13 + x2*w23 - T3)))
+y4 = 1/(1 + math.exp(-(x1*w14 + x2*w24 - T4)))
+y5 = 1/(1 + math.exp(-(y3*w35 + y4*w45 - T5)))
+
+#Calculating error at output
+e = yd - y5
+
+#Calculating error gradient at output
+delta5 = y5*(1-y5)*e
+
+#Weight training for output layer
+Correctw35 = alpha*y3*delta5
+Correctw45 = alpha*y4*delta5
+CorrectT5 = alpha*-1*delta5
+
+#Calculate error gradient for hidden layer
+delta3 = y3*(1-y3)*delta5*w35
+delta4 = y4*(1-y4)*delta5*w45
+
+#Weight training for hidden layer
+Correctw13 = alpha*x1*delta3
+Correctw23 = alpha*x2*delta3
+CorrectT3 = alpha*-1*delta3
+Correctw14 = alpha*x1*delta4
+Correctw24 = alpha*x2*delta4
+CorrectT4 = alpha*-1*delta4
+
+#Calculating new input values 
+neww13 = w13 + Correctw13
+neww14 = w14 + Correctw14
+neww23 = w23 + Correctw23
+neww24 = w24 + Correctw24
+neww35 = w35 + Correctw35
+neww45 = w45 + Correctw45
+newT3 = T3 + CorrectT3
+newT4 = T4 + CorrectT4
+newT5 = T5 + CorrectT5
+W13 = 'newW13 = ' + repr(neww13)  
+print(W13)
+W14 = 'newW14 = ' + repr(neww14)  
+print(W14)
+W23 = 'newW23 = ' + repr(neww23)  
+print(W23)
+W24 = 'newW24 = ' + repr(neww24)  
+print(W24)
+W35 = 'newW35 = ' + repr(neww35)  
+print(W35)
+W45 = 'newW45 = ' + repr(neww45)  
+print(W45)
+Theta3 = 'newTheta3 = ' + repr(newT3)  
+print(Theta3)
+Theta4 = 'newTheta4 = ' + repr(newT4)  
+print(Theta4)
+Theta5 = 'newTheta5 = ' + repr(newT5)  
+print(Theta5)
